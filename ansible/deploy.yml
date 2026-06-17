@@ -1,0 +1,64 @@
+---
+- name: Build and Backup ID Card System
+  hosts: web
+  become: false
+
+  vars:
+    project_dir: /home/lo-bunleang/Desktop/DevOps/idcard
+    backup_dir: /home/lo-bunleang/Desktop/DevOps/backups
+
+  tasks:
+
+    - name: Ensure backup directory exists
+      file:
+        path: "{{ backup_dir }}"
+        state: directory
+
+    - name: Git Pull Latest Code
+      shell: |
+        cd {{ project_dir }}
+        git reset --hard
+        git pull origin main
+      register: git_output
+
+    - debug:
+        var: git_output.stdout
+
+    - name: Build Project
+      shell: |
+        cd {{ project_dir }}
+        ./mvnw clean package -DskipTests
+      register: build_output
+
+    - debug:
+        var: build_output.stdout
+
+    - name: Run Tests using SQLite
+      shell: |
+        cd {{ project_dir }}
+        ./mvnw clean test -Dspring.profiles.active=test
+      register: test_output
+
+    - debug:
+        var: test_output.stdout_lines
+      register: test_output
+
+    - debug:
+        var: test_output.stdout
+
+    - name: Backup MySQL Database
+      shell: |
+        docker exec idcard-mysql \
+        mysqldump \
+        -uroot \
+        -pHello@123 \
+        i4gica-lobunleang-db \
+        > {{ backup_dir }}/backup.sql
+
+    - name: Verify Backup
+      stat:
+        path: "{{ backup_dir }}/backup.sql"
+      register: backup_file
+
+    - debug:
+        var: backup_file.stat.size
