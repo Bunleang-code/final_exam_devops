@@ -1,4 +1,4 @@
----
+
 - name: Build and Backup ID Card System
   hosts: web
   become: false
@@ -12,37 +12,6 @@
       file:
         path: "{{ backup_dir }}"
         state: directory
-
-    - name: Git Pull Latest Code
-      shell: |
-        cd {{ project_dir }}
-        git pull origin main
-      register: git_output
-
-    - debug:
-        var: git_output.stdout
-
-    - name: Build Project
-      shell: |
-        cd {{ project_dir }}
-        ./mvnw clean package -DskipTests
-      register: build_output
-
-    - debug:
-        var: build_output.stdout
-
-    - name: Run Tests using SQLite
-      shell: |
-        cd {{ project_dir }}
-        ./mvnw clean test -Dspring.profiles.active=test
-      register: test_output
-
-    - debug:
-        var: test_output.stdout_lines
-      register: test_output
-
-    - debug:
-        var: test_output.stdout
 
     - name: Backup MySQL Database
       shell: |
@@ -58,5 +27,6 @@
         path: "{{ backup_dir }}/backup.sql"
       register: backup_file
 
-    - debug:
-        var: backup_file.stat.size
+    - name: Show Backup Size
+      debug:
+        msg: "Backup file size = {{ backup_file.stat.size }} bytes"
