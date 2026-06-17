@@ -11,6 +11,16 @@ pipeline {
 
     stages {
 
+        stage('Check Java') {
+            steps {
+                sh '''
+                    java -version
+                    javac -version
+                    mvn -version
+                '''
+            }
+        }
+
         stage('Build') {
             steps {
                 sh './mvnw clean package -DskipTests'
