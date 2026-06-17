@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Profiles</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-100 min-h-screen">
+
+<div class="container mx-auto p-8">
+
+<div class="flex justify-between items-center mb-8">
+
+    <div class="flex gap-3">
+
+        <a href="/"
+           class="bg-gray-600 text-white px-5 py-3 rounded-xl">
+            ← Home
+        </a>
+
+        <input
+                type="text"
+                placeholder="Search profiles..."
+                class="border rounded-xl px-4 py-3 w-80">
+    </div>
+
+    <a href="/profiles/new"
+       class="bg-blue-600 text-white px-6 py-3 rounded-xl">
+        + Add Profile
+    </a>
+
+</div>
+
+    <div class="bg-white rounded-xl shadow overflow-hidden">
+
+        <table class="w-full">
+
+    <thead class="bg-slate-200">
+    <tr>
+
+        <th class="p-4 text-left">ID</th>
+        <th class="p-4 text-left">Photo</th>
+        <th class="p-4 text-left">Name</th>
+        <th class="p-4 text-left">Department</th>
+        <th class="p-4 text-left">Email</th>
+        <th class="p-4 text-left">Phone</th>
+        <th class="p-4 text-left">Type</th>
+        <th class="p-4 text-left">Reg No</th>
+        <th class="p-4 text-left">Actions</th>
+
+    </tr>
+    </thead>
+
+    <tbody>
+
+    <tr th:each="profile : ${profiles}"
+        class="border-t hover:bg-slate-50">
+
+        <td class="p-4"
+            th:text="${profile.id}">
+        </td>
+
+        <td class="p-4">
+
+            <img
+                th:if="${profile.photoFileName != null}"
+                th:src="@{/uploads/{file}(file=${profile.photoFileName})}"
+                class="w-12 h-12 rounded-full object-cover">
+
+            <span th:if="${profile.photoFileName == null}">
+                No Photo
+            </span>
+
+        </td>
+
+        <td class="p-4"
+            th:text="${profile.fullName}">
+        </td>
+
+        <td class="p-4"
+            th:text="${profile.department}">
+        </td>
+
+        <td class="p-4"
+            th:text="${profile.email}">
+        </td>
+
+        <td class="p-4"
+            th:text="${profile.phone}">
+        </td>
+
+        <td class="p-4"
+            th:text="${profile.type}">
+        </td>
+
+        <td class="p-4"
+            th:text="${profile.registrationNumber}">
+        </td>
+
+        <td class="p-4 space-x-2">
+
+            <a th:href="@{/preview/{id}(id=${profile.id})}"
+            class="text-blue-600 font-medium">
+                Preview
+            </a>
+
+            <a th:href="@{/profiles/edit/{id}(id=${profile.id})}"
+            class="text-yellow-600 font-medium">
+                Edit
+            </a>
+
+            <a th:href="@{/profiles/delete/{id}(id=${profile.id})}"
+            onclick="return confirm('Delete profile?')"
+            class="text-red-600 font-medium">
+                Delete
+            </a>
+
+        </td>
+
+    </tr>
+
+    </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+</html>

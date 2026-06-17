@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Profile Form</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-100 min-h-screen py-10">
+
+<div class="max-w-3xl mx-auto bg-white shadow-lg rounded-2xl p-8">
+
+```
+<div class="flex justify-between items-center mb-8">
+
+    <h1 class="text-3xl font-bold"
+        th:text="${profile.id == null ? 'Create Profile' : 'Edit Profile'}">
+        Create Profile
+    </h1>
+
+    <a href="/profiles"
+       class="bg-gray-600 text-white px-4 py-2 rounded-lg">
+        Back
+    </a>
+
+</div>
+
+<form th:object="${profile}"
+      method="post"
+      action="/profiles/save"
+      enctype="multipart/form-data">
+
+    <input type="hidden" th:field="*{id}">
+
+    <div class="grid grid-cols-2 gap-4">
+
+        <div>
+            <label class="font-semibold">Full Name</label>
+            <input
+                    type="text"
+                    th:field="*{fullName}"
+                    class="w-full border rounded-lg p-3 mt-1"
+                    required>
+        </div>
+
+        <div>
+            <label class="font-semibold">Department</label>
+            <input
+                    type="text"
+                    th:field="*{department}"
+                    class="w-full border rounded-lg p-3 mt-1">
+        </div>
+
+        <div>
+            <label class="font-semibold">Title</label>
+            <input
+                    type="text"
+                    th:field="*{title}"
+                    class="w-full border rounded-lg p-3 mt-1">
+        </div>
+
+        <div>
+            <label class="font-semibold">Email</label>
+            <input
+                    type="email"
+                    th:field="*{email}"
+                    class="w-full border rounded-lg p-3 mt-1">
+        </div>
+
+        <div>
+            <label class="font-semibold">Phone</label>
+            <input
+                    type="text"
+                    th:field="*{phone}"
+                    class="w-full border rounded-lg p-3 mt-1">
+        </div>
+
+        <div>
+            <label class="font-semibold">Blood Group</label>
+            <input
+                    type="text"
+                    th:field="*{bloodGroup}"
+                    class="w-full border rounded-lg p-3 mt-1">
+        </div>
+
+        <div>
+            <label class="font-semibold">Date of Birth</label>
+            <input
+                    type="date"
+                    th:field="*{dateOfBirth}"
+                    class="w-full border rounded-lg p-3 mt-1">
+        </div>
+
+        <div>
+            <label class="font-semibold">Issue Date</label>
+            <input
+                    type="date"
+                    th:field="*{issueDate}"
+                    class="w-full border rounded-lg p-3 mt-1">
+        </div>
+
+        <div>
+            <label class="font-semibold">Expiry Date</label>
+            <input
+                    type="date"
+                    th:field="*{expiryDate}"
+                    class="w-full border rounded-lg p-3 mt-1">
+        </div>
+
+        <div>
+            <label class="font-semibold">Profile Type</label>
+
+            <select
+                    th:field="*{type}"
+                    class="w-full border rounded-lg p-3 mt-1">
+
+                <option value="STUDENT">STUDENT</option>
+                <option value="EMPLOYEE">EMPLOYEE</option>
+                <option value="USER">USER</option>
+
+            </select>
+        </div>
+
+    </div>
+
+    <div class="mt-5">
+
+        <label class="font-semibold">Photo</label>
+
+        <input
+                type="file"
+                name="photo"
+                class="w-full border rounded-lg p-3 mt-1">
+
+    </div>
+
+    <div class="mt-8 flex justify-end gap-3">
+
+        <a href="/profiles"
+           class="bg-gray-500 text-white px-5 py-3 rounded-lg">
+            Cancel
+        </a>
+
+        <button
+                type="submit"
+                class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700">
+
+            Save Profile
+
+        </button>
+
+    </div>
+
+</form>
+```
+
+</div>
+
+</body>
+</html>

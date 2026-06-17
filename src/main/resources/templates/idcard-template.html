@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Templates</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-100 min-h-screen">
+
+<div class="container mx-auto p-8">
+
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-8">
+
+        <div class="flex gap-3">
+
+            <a href="/"
+               class="bg-gray-600 text-white px-5 py-3 rounded-xl hover:bg-gray-700">
+                ← Home
+            </a>
+
+        </div>
+
+        <a href="/templates/new"
+           class="bg-blue-600 text-white px-6 py-3 rounded-xl hover:bg-blue-700">
+            + Add Template
+        </a>
+
+    </div>
+
+    <!-- Templates Table -->
+    <div class="bg-white rounded-xl shadow overflow-hidden">
+
+        <table class="w-full">
+
+            <thead class="bg-slate-200">
+
+            <tr>
+
+                <th class="p-4 text-left">ID</th>
+                <th class="p-4 text-left">Code</th>
+                <th class="p-4 text-left">Name</th>
+                <th class="p-4 text-left">Organization</th>
+                <th class="p-4 text-left">Layout</th>
+                <th class="p-4 text-left">Primary</th>
+                <th class="p-4 text-left">Secondary</th>
+                <th class="p-4 text-left">Text</th>
+                <th class="p-4 text-left">Tagline</th>
+                <th class="p-4 text-left">Actions</th>
+
+            </tr>
+
+            </thead>
+
+            <tbody>
+
+            <!-- Empty State -->
+            <tr th:if="${#lists.isEmpty(templates)}">
+
+                <td colspan="10"
+                    class="p-8 text-center text-gray-500">
+
+                    No templates found.
+
+                </td>
+
+            </tr>
+
+            <!-- Data Rows -->
+            <tr th:each="template : ${templates}"
+                class="border-t hover:bg-slate-50">
+
+                <td class="p-4"
+                    th:text="${template.id}">
+                </td>
+
+                <td class="p-4 font-medium"
+                    th:text="${template.code}">
+                </td>
+
+                <td class="p-4"
+                    th:text="${template.name}">
+                </td>
+
+                <td class="p-4"
+                    th:text="${template.organizationName}">
+                </td>
+
+                <td class="p-4"
+                    th:text="${template.layout}">
+                </td>
+
+                <!-- Primary Color -->
+                <td class="p-4">
+
+                    <div class="flex items-center gap-2">
+
+                        <div class="w-6 h-6 rounded border"
+                             th:style="'background-color:' + ${template.primaryColor}">
+                        </div>
+
+                        <span th:text="${template.primaryColor}">
+                        </span>
+
+                    </div>
+
+                </td>
+
+                <!-- Secondary Color -->
+                <td class="p-4">
+
+                    <div class="flex items-center gap-2">
+
+                        <div class="w-6 h-6 rounded border"
+                             th:style="'background-color:' + ${template.secondaryColor}">
+                        </div>
+
+                        <span th:text="${template.secondaryColor}">
+                        </span>
+
+                    </div>
+
+                </td>
+
+                <!-- Text Color -->
+                <td class="p-4">
+
+                    <div class="flex items-center gap-2">
+
+                        <div class="w-6 h-6 rounded border"
+                             th:style="'background-color:' + ${template.textColor}">
+                        </div>
+
+                        <span th:text="${template.textColor}">
+                        </span>
+
+                    </div>
+
+                </td>
+
+                <td class="p-4"
+                    th:text="${template.tagline}">
+                </td>
+
+                <td class="p-4 space-x-2">
+
+                    <a th:href="@{/templates/edit/{id}(id=${template.id})}"
+                       class="text-yellow-600 font-medium hover:underline">
+                        Edit
+                    </a>
+
+                    <a th:href="@{/templates/delete/{id}(id=${template.id})}"
+                       onclick="return confirm('Delete template?')"
+                       class="text-red-600 font-medium hover:underline">
+                        Delete
+                    </a>
+
+                </td>
+
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+</html>

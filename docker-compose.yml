@@ -1,0 +1,42 @@
+version: '3.9'
+
+services:
+
+  web:
+
+    build: .
+
+    container_name: idcard-web
+
+    ports:
+      - "8443:8080"
+      - "2222:22"
+
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/i4gica-lobunleang-db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Hello@123
+
+    depends_on:
+      - mysql
+
+  mysql:
+
+    image: mysql:8.0
+
+    container_name: idcard-mysql
+
+    restart: always
+
+    environment:
+      MYSQL_ROOT_PASSWORD: Hello@123
+      MYSQL_DATABASE: i4gica-lobunleang-db
+
+    ports:
+      - "3307:3306"
+
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
