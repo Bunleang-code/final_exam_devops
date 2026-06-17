@@ -17,7 +17,6 @@
     - name: Git Pull Latest Code
       shell: |
         cd {{ project_dir }}
-        git reset --hard
         git pull origin main
       register: git_output
 
