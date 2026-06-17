@@ -5,39 +5,44 @@ pipeline {
         pollSCM('H/5 * * * *')
     }
 
-    environment {
-        PROJECT_DIR = '/home/lo-bunleang/Desktop/DevOps/idcard'
-    }
-
     stages {
 
-        stage('Check Java') {
+        stage('Check Environment') {
             steps {
                 sh '''
                     java -version
                     javac -version
-                    mvn -version
+
+                    chmod +x mvnw
+
+                    ./mvnw -version
                 '''
             }
         }
 
         stage('Build') {
             steps {
-                sh './mvnw clean package -DskipTests'
+                sh '''
+                    chmod +x mvnw
+                    ./mvnw clean package -DskipTests
+                '''
             }
         }
 
         stage('Test SQLite') {
             steps {
-                sh './mvnw clean test -Dspring.profiles.active=test'
+                sh '''
+                    chmod +x mvnw
+                    ./mvnw clean test -Dspring.profiles.active=test
+                '''
             }
         }
 
         stage('Deploy') {
             steps {
                 sh '''
-                cd ansible
-                ansible-playbook -i inventory.ini deploy.yml
+                    cd ansible
+                    ansible-playbook -i inventory.ini deploy.yml
                 '''
             }
         }
